@@ -27,6 +27,6 @@ let package = Package(
       dependencies: ["Moya", "RxMoya"]),
     .testTarget(
       name: "ShopifyAPITests",
-      dependencies: ["ShopifyAPI", "RxBlocking"]),
+      dependencies: ["ShopifyAPI", "RxBlocking", "RxTest"]),
   ]
 )
