@@ -10,12 +10,20 @@ public enum ResourcesTarget: TargetType {
   case orders(_ spec: APIPartialSpecification)
   case products(_ spec: APIPartialSpecification)
   
+  private func figureOutShopDomain(shop: String) -> String {
+    if shop.hasSuffix("myshopify.com") {
+      return shop
+    } else {
+      return "\(shop).myshopify.com"
+    }
+  }
+  
   public var baseURL: URL {
     switch self {
     case .authenticate(let shop, _, _, _):
-      return URL(string: "https://\(shop)")!
+      return URL(string: "https://\(figureOutShopDomain(shop: shop))")!
     case .orders(let spec), .products(let spec):
-      return URL(string: "https://\(spec.shop)")!
+      return URL(string: "https://\(figureOutShopDomain(shop: spec.shop))")!
     }
   }
   
