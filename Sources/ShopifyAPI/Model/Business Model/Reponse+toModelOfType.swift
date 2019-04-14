@@ -10,9 +10,9 @@ extension Response {
     do {
       return try map(type)
     } catch {
-      do {
-        throw try map(ErrorResponse.self)
-      } catch {
+      if let errorResponse = try? map(ErrorResponse.self) {
+        throw errorResponse
+      } else {
         throw ShopifyAPIError.responseDecoding(response: self, baseError: error)
       }
     }

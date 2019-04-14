@@ -9,7 +9,7 @@ public struct ErrorResponse: Swift.Error, Decodable, CustomStringConvertible, Cu
   var errors: String?
   
   enum CodingKeys: String, CodingKey {
-    case errors
+    case errors = "errors"
   }
   
   public var description: String  {

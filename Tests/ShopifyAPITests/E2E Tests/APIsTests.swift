@@ -1,6 +1,7 @@
 import XCTest
 import RxSwift
 import RxBlocking
+import TestUtilities
 @testable import ShopifyAPI
 
 final class APIsTests: XCTestCase {
@@ -20,29 +21,4 @@ final class APIsTests: XCTestCase {
   
 }
 
-extension BlockingObservable {
-  func firstCatchError(_ message: String? = nil) -> E? {
-    do {
-      return try first()
-    } catch {
-      assert(false, "\(message ?? "Fail to blocked-get observable element") ::: \(error)")
-    }
-  }
-  
-  func lastCatchError(_ message: String? = nil) -> E? {
-    do {
-      return try last()
-    } catch {
-      assert(false, "\(message ?? "Fail to blocked-get observable element") ::: \(error)")
-    }
-  }
-  
-  func toArrayCatchError(_ message: String? = nil) -> [E] {
-    do {
-      return try toArray()
-    } catch {
-      assert(false, "\(message ?? "Fail to blocked-get observable element") ::: \(error)")
-    }
-  }
-}
 
