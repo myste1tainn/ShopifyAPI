@@ -5,18 +5,12 @@
 import Foundation
 import Moya
 
-public enum ResourcesTarget: TargetType {
+public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   case authenticate (shop: String, clientId: String, clientSecret: String, code: String)
   case orders(_ spec: APIPartialSpecification)
   case products(_ spec: APIPartialSpecification)
   
-  private func figureOutShopDomain(shop: String) -> String {
-    if shop.hasSuffix("myshopify.com") {
-      return shop
-    } else {
-      return "\(shop).myshopify.com"
-    }
-  }
+  // MARK: - Target type
   
   public var baseURL: URL {
     switch self {
@@ -24,24 +18,6 @@ public enum ResourcesTarget: TargetType {
       return URL(string: "https://\(figureOutShopDomain(shop: shop))")!
     case .orders(let spec), .products(let spec):
       return URL(string: "https://\(figureOutShopDomain(shop: spec.shop))")!
-    }
-  }
-  
-  private var wholeSpec: APISpecification? {
-    switch self {
-    case .orders(let spec):
-      return .init(shop: spec.shop, resourceName: .orders, method: spec.specMethod)
-    case .products(let spec):
-      return .init(shop: spec.shop, resourceName: .products, method: spec.specMethod)
-    default:
-      return nil
-    }
-  }
-  
-  private var _path: String {
-    switch self {
-    case .authenticate: return "oauth/access_token"
-    case .orders, .products: return wholeSpec.flatMap { $0.path } ?? ""
     }
   }
   
@@ -67,4 +43,42 @@ public enum ResourcesTarget: TargetType {
   }
   
   public var sampleData: Data { fatalError("sampleData has not been implemented") }
+  
+  // MARK: - Access Token authorizable
+  
+  public var authorizationType: AuthorizationType {
+    switch self {
+    case .orders, .products: return .custom("")
+    default: return .none
+    }
+  }
+  
+  // MARK: - Helper functions
+  
+  private func figureOutShopDomain(shop: String) -> String {
+    if shop.hasSuffix("myshopify.com") {
+      return shop
+    } else {
+      return "\(shop).myshopify.com"
+    }
+  }
+  
+  private var wholeSpec: APISpecification? {
+    switch self {
+    case .orders(let spec):
+      return .init(shop: spec.shop, resourceName: .orders, method: spec.specMethod)
+    case .products(let spec):
+      return .init(shop: spec.shop, resourceName: .products, method: spec.specMethod)
+    default:
+      return nil
+    }
+  }
+  
+  private var _path: String {
+    switch self {
+    case .authenticate: return "oauth/access_token"
+    case .orders, .products: return wholeSpec.flatMap { $0.path } ?? ""
+    }
+  }
+  
 }

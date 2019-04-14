@@ -8,25 +8,25 @@ public struct LineItem: Decodable {
   public var id: Int?
   public var variantId: Int?
   public var title: String?
-  public var quantity: String?
+  public var quantity: Int?
   public var price: String?
   public var sku: String?
   public var variantTitle: String?
   public var vendor: String?
   public var fulfillmentService: String?
   public var productId: Int?
-  public var requiresShipping: String?
-  public var taxable: String?
-  public var giftCard: String?
+  public var requiresShipping: Bool?
+  public var taxable: Bool?
+  public var giftCard: Bool?
   public var name: String?
   public var variantInventoryManagement: String?
-  public var properties: String?
-  public var productExists: String?
-  public var fulfillableQuantity: String?
-  public var grams: String?
+  public var properties: [String]?
+  public var productExists: Bool?
+  public var fulfillableQuantity: Int?
+  public var grams: Int?
   public var totalDiscount: String?
   public var fulfillmentStatus: String?
-  public var discountAllocations: String?
+  public var discountAllocations: [String]?
   public var adminGraphqlApiId: String?
   public var taxLines: [TaxLine]?
   

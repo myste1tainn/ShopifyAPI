@@ -5,11 +5,11 @@
 import Foundation
 
 public struct Order: Decodable {
-  public var id: String?
+  public var id: Int?
   public var email: String?
-  public var closedAt: Date?
-  public var createdAt: Date?
-  public var updatedAt: Date?
+  public var closedAt: String?
+  public var createdAt: String?
+  public var updatedAt: String?
   public var number: Int?
   public var note: String?
   public var token: String?
@@ -30,7 +30,7 @@ public struct Order: Decodable {
   public var name: String?
   public var referringSite: String?
   public var landingSite: String?
-  public var cancelledAt: Date?
+  public var cancelledAt: String?
   public var cancelReason: String?
   public var totalPriceUsd: String?
   public var checkoutToken: String?
@@ -39,14 +39,14 @@ public struct Order: Decodable {
   public var locationId: Int?
   public var sourceIdentifier: String?
   public var sourceUrl: String?
-  public var processedAt: Date?
+  public var processedAt: String?
   public var deviceId: Int?
   public var phone: String?
   public var customerLocale: String?
   public var appId: Int?
   public var browserIp: String?
   public var landingSiteRef: String?
-  public var orderNumber: String?
+  public var orderNumber: Int?
   public var discountApplications: [String]?
   public var discountCodes: [String]?
   public var noteAttributes: [String]?
@@ -64,9 +64,9 @@ public struct Order: Decodable {
   public var shippingLines: [ShippingLine]?
   public var billingAddress: BillingAddress
   public var shippingAddress: ShippingAddress
-  public var fulfillments: [String]?
+  public var fulfillments: [Fulfillment]?
   public var clientDetails: ClientDetails
-  public var refunds: [String]?
+  public var refunds: [Refund]?
   public var customer: Customer
   public var trackingNumber: String?
   

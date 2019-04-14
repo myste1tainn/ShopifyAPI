@@ -23,7 +23,8 @@ public class APIs: MoyaProvider<ResourcesTarget> {
   
   public func orders(shop: String) -> Single<[Order]> {
     return rx.request(.orders(.get(from: shop)))
-             .map { try $0.toModel(ofType: [Order].self) }
+             .map { try $0.toModel(ofType: ArrayResponse<Order>.self) }
+             .map { $0.items ?? [] }
   }
   
   public func products(shop: String) -> Single<[Product]> {

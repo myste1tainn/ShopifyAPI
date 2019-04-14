@@ -6,7 +6,7 @@ import Foundation
 
 public struct TaxLine: Decodable {
   public var price: String?
-  public var rate: Int?
+  public var rate: Double?
   public var title: String?
   
   enum CodingKeys: CodingKey {
