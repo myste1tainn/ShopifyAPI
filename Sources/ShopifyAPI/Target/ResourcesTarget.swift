@@ -35,7 +35,18 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   }
   
   public var task: Task {
-    return .requestPlain
+    switch self {
+    case .authenticate: return .requestPlain
+    case .products(let spec), .orders(let spec):
+      if let page = spec.page {
+        return .requestParameters(parameters: [
+          "limit": 50,
+          "page": page
+        ], encoding: URLEncoding.default)
+      } else {
+        return .requestPlain
+      }
+    }
   }
   
   public var headers: [String: String]? {
@@ -43,8 +54,8 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   }
   
   public var sampleData: Data { fatalError("sampleData has not been implemented") }
-  
-  // MARK: - Access Token authorizable
+
+// MARK: - Access Token authorizable
   
   public var authorizationType: AuthorizationType {
     switch self {
@@ -52,8 +63,8 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
     default: return .none
     }
   }
-  
-  // MARK: - Helper functions
+
+// MARK: - Helper functions
   
   private func figureOutShopDomain(shop: String) -> String {
     if shop.hasSuffix("myshopify.com") {
@@ -80,5 +91,6 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
     case .orders, .products: return wholeSpec.flatMap { $0.path } ?? ""
     }
   }
-  
 }
+  
+
