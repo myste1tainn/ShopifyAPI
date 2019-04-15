@@ -15,11 +15,17 @@ final class APIsTests: XCTestCase {
     apis = APIs(plugins: [authenticationPlugin, loggerPlugin])
   }
   
-  func tests_getOrders_whenUsingCorrectShop_itReturnsOrders() {
-    let orders = self.apis.orders(shop: self.shop).toBlocking().firstCatchError()
-    XCTAssertNotNil(orders)
-    XCTAssert(orders?.count ?? 0 > 0)
+  func tests_getOrdersAtPage_whenUsingCorrectShop_itReturnsOrdersWithDefaultNumItems() {
+    let orders = self.apis.orders(shop: self.shop, in: 0).toBlocking().firstCatchError()
+    XCTAssert(orders != nil && orders?.count ?? 0 > 0, "it returns orders")
   }
+
+//  func tests_getOrders_whenUsingCorrectShop_itReturnsOrders() {
+//    let orderCount = self.apis.orderCount(shop: self.shop).toBlocking().firstCatchError()
+//    let orders = self.apis.orders(shop: self.shop).toBlocking().firstCatchError()
+//    XCTAssert(products != nil && products?.count ?? 0 > 0, "it returns products")
+//    XCTAssertEqual(orders?.count, orderCount, "it returns orders count that match total count")
+//  }
   
   func tests_getProductCount_whenUsingCorrectShop_itReturnsProductCount() {
     let count = self.apis.productCount(shop: self.shop).toBlocking().firstCatchError()

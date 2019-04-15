@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct ProductCount: Decodable {
+public struct CountResponse: Decodable {
   public var count: Int?
   
   enum CodingKeys: String, CodingKey {

@@ -22,9 +22,21 @@ public class APIs: MoyaProvider<ResourcesTarget> {
   }
   
   public func orders(shop: String) -> Single<[Order]> {
-    return rx.request(.orders(.get(from: shop)))
+    return orderCount(shop: shop)
+      .map(self.pages(from:))
+      .flatMap(self.gettingOrderInPages(shop: shop))
+  }
+  
+  public func orders(shop: String, in page: Int) -> Single<[Order]> {
+    return rx.request(.orders(.get(from: shop, at: page)))
              .map { try $0.toModel(ofType: ArrayResponse<Order>.self) }
              .map { $0.items ?? [] }
+  }
+  
+  public func orderCount(shop: String) -> Single<Int> {
+    return rx.request(.orders(.getCount(from: shop)))
+             .map { try $0.toModel(ofType: CountResponse.self) }
+             .map { $0.count ?? 0 }
   }
   
   public func products(shop: String) -> Single<[Product]> {
@@ -32,6 +44,20 @@ public class APIs: MoyaProvider<ResourcesTarget> {
       .map(self.pages(from:))
       .flatMap(self.gettingProductInPages(shop: shop))
   }
+  
+  public func products(shop: String, in page: Int) -> Single<[Product]> {
+    return rx.request(.products(.get(from: shop, at: page)))
+             .map { try $0.toModel(ofType: ArrayResponse<Product>.self) }
+             .map { $0.items ?? [] }
+  }
+  
+  public func productCount(shop: String) -> Single<Int> {
+    return rx.request(.products(.getCount(from: shop)))
+             .map { try $0.toModel(ofType: CountResponse.self) }
+             .map { $0.count ?? 0 }
+  }
+  
+  // MARK: - Helper functions
   
   private func pages(from count: Int) -> [Int] {
     let itemsPerPage = 50
@@ -56,16 +82,19 @@ public class APIs: MoyaProvider<ResourcesTarget> {
     }
   }
   
-  private func products(shop: String, in page: Int) -> Single<[Product]> {
-    return rx.request(.products(.get(from: shop, at: page)))
-             .map { try $0.toModel(ofType: ArrayResponse<Product>.self) }
-             .map { $0.items ?? [] }
+  private func gettingOrderInPages(shop: String) -> ([Int]) -> Single<[Order]> {
+    return { pages in
+      let obs = pages.map(self.gettingOrderInPage(shop: shop))
+                     .map { $0.asObservable() }
+      return Observable.merge(obs)
+                       .reduce([Order]()) { $0 + $1 }
+                       .asSingle()
+    }
   }
   
-  public func productCount(shop: String) -> Single<Int> {
-    return rx.request(.products(.getCount(from: shop)))
-             .map { try $0.toModel(ofType: ProductCount.self) }
-             .map { $0.count ?? 0 }
+  private func gettingOrderInPage(shop: String) -> (Int) -> Single<[Order]> {
+    return { page in
+      self.orders(shop: shop, in: page)
+    }
   }
-  
 }
