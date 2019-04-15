@@ -28,11 +28,10 @@ final class APIsTests: XCTestCase {
   }
   
   func tests_getProducts_whenUsingCorrectShop_itReturnsProducts() {
-    let productCount =
+    let productCount = self.apis.productCount(shop: self.shop).toBlocking().firstCatchError()
     let products = self.apis.products(shop: self.shop).toBlocking().firstCatchError()
-    XCTAssertNotNil(products)
-    XCTAssert(products?.count ?? 0 > 0)
-    XCTAsesrt(products?.count == productCount)
+    XCTAssert(products != nil && products?.count ?? 0 > 0, "it returns products")
+    XCTAssertEqual(products?.count, productCount, "it returns products count that match total count")
   }
 }
 
