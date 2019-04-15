@@ -28,12 +28,13 @@ public class APIs: MoyaProvider<ResourcesTarget> {
   }
   
   public func products(shop: String) -> Single<[Product]> {
-    return Observable.empty().asSingle()
+    return products(shop: shop, in: 0)
   }
   
   private func products(shop: String, in page: Int) -> Single<[Product]> {
     return rx.request(.products(.get(from: shop, at: page)))
-             .map { try $0.toModel(ofType: [Product].self) }
+             .map { try $0.toModel(ofType: ArrayResponse<Product>.self) }
+             .map { $0.items ?? [] }
   }
   
   public func productCount(shop: String) -> Single<Int> {

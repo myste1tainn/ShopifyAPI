@@ -2,7 +2,6 @@ import XCTest
 import RxSwift
 import RxBlocking
 import Moya
-import TestUtilities
 @testable import ShopifyAPI
 
 final class APIsTests: XCTestCase {
@@ -22,27 +21,10 @@ final class APIsTests: XCTestCase {
     XCTAssert(orders?.count ?? 0 > 0)
   }
   
-}
-
-
-import Foundation
-
-public struct ShopifyAccessTokenPlugin: PluginType {
-  let tokenClosure: () -> String
-  
-  public init(tokenClosure: @escaping () -> String) {
-    self.tokenClosure = tokenClosure
-  }
-  
-  public func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
-    guard let authorizable = target as? AccessTokenAuthorizable else { return request }
-    var request = request
-    
-    switch authorizable.authorizationType {
-    case .basic, .bearer, .custom: request.addValue(tokenClosure(), forHTTPHeaderField: "X-Shopify-Access-Token")
-    case .none: return request
-    }
-    
-    return request
+  func tests_getProducts_whenUsingCorrectShop_itReturnsProducts() {
+    let products = self.apis.products(shop: self.shop).toBlocking().firstCatchError()
+    XCTAssertNotNil(products)
+    XCTAssert(products?.count ?? 0 > 0)
   }
 }
+
