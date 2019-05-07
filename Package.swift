@@ -17,7 +17,11 @@ let package = Package(
     
     .package(url: "https://github.com/Moya/Moya.git", from: "12.0.0"),
     
-    .package(url: "https://github.com/ReactiveX/RxSwift", from: "4.5.0")
+    .package(url: "https://github.com/ReactiveX/RxSwift", from: "4.5.0"),
+    
+    .package(url: "https://github.com/myste1tainn/RxQuickNimble", from: "0.1.0"),
+    .package(url: "https://github.com/quick/Quick.git", from: "1.0.0"),
+    .package(url: "https://github.com/quick/Nimble.git", from: "7.0.0")
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,6 +31,6 @@ let package = Package(
       dependencies: ["Moya", "RxMoya"]),
     .testTarget(
       name: "ShopifyAPITests",
-      dependencies: ["ShopifyAPI", "RxBlocking", "RxTest"]),
+      dependencies: ["ShopifyAPI", "RxQuickNimble", "Quick", "Nimble"]),
   ]
 )
