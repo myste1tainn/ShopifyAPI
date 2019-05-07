@@ -2,24 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
-        "state": {
-          "branch": null,
-          "revision": "75bba56748359f297a83f620d45f72cf4ebee4e7",
-          "version": "4.8.2"
-        }
-      },
-      {
-        "package": "Moya",
-        "repositoryURL": "https://github.com/Moya/Moya.git",
-        "state": {
-          "branch": null,
-          "revision": "a3dbb26039f49f439096397407fef3fc037176d8",
-          "version": "12.0.1"
-        }
-      },
-      {
         "package": "Nimble",
         "repositoryURL": "https://github.com/Quick/Nimble.git",
         "state": {
@@ -38,21 +20,12 @@
         }
       },
       {
-        "package": "ReactiveSwift",
-        "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveSwift.git",
+        "package": "RxNetworking",
+        "repositoryURL": "https://github.com/myste1tainn/RxNetworking.git",
         "state": {
           "branch": null,
-          "revision": "4f6a12ae6762e825b0e19a4f7076eafa43847e6e",
-          "version": "4.0.0"
-        }
-      },
-      {
-        "package": "Result",
-        "repositoryURL": "https://github.com/antitypical/Result.git",
-        "state": {
-          "branch": null,
-          "revision": "2ca499ba456795616fbc471561ff1d963e6ae160",
-          "version": "4.1.0"
+          "revision": "009a44dbf043f7733275383dbb2ff6c52ea6b4c3",
+          "version": "0.5.0"
         }
       },
       {

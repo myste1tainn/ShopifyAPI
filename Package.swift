@@ -15,7 +15,7 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
     
-    .package(url: "https://github.com/Moya/Moya.git", from: "12.0.0"),
+    .package(url: "https://github.com/myste1tainn/RxNetworking.git", from: "0.5.0"),
     
     .package(url: "https://github.com/ReactiveX/RxSwift", from: "4.5.0"),
     
@@ -28,7 +28,7 @@ let package = Package(
     // Targets can depend on other targets in this package, and on products in packages which this package depends on.
     .target(
       name: "ShopifyAPI",
-      dependencies: ["Moya", "RxMoya"]),
+      dependencies: ["RxNetworking"]),
     .testTarget(
       name: "ShopifyAPITests",
       dependencies: ["ShopifyAPI", "RxQuickNimble", "Quick", "Nimble"]),

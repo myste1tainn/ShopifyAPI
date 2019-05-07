@@ -2,7 +2,7 @@ import RxSwift
 import RxQuickNimble
 import Quick
 import Nimble
-import Moya
+@testable import RxNetworking
 @testable import ShopifyAPI
 
 class APIsSpec: QuickSpec {
@@ -12,16 +12,18 @@ class APIsSpec: QuickSpec {
     var apis: APIs!
     let shop       = "girlsnationofficial"
     let disposeBag = DisposeBag()
-    let authenticationPlugin = ShopifyAccessTokenPlugin { "81f56cb2d6357ba9de79646be4b44a99" }
-    let loggerPlugin = NetworkLoggerPlugin()
+    let authenticationPlugin = AccessTokenPlugin(tokenSingle: .just("81f56cb2d6357ba9de79646be4b44a99"))
+    let loggerPlugin = LoggerPlugin()
     apis = APIs(plugins: [authenticationPlugin, loggerPlugin])
     
     describe("APIs") {
       describe("#orders") {
         it("returns orders") {
-          apis.orders(shop: shop, in: 0).expectation(bag: disposeBag) {
+          apis.orders(shop: shop, in: 0).expectation(bag: disposeBag, {
             expect($0.count) > 0
-          }
+          }, { error in
+            expect(error).to(beNil())
+          })
         }
       }
       

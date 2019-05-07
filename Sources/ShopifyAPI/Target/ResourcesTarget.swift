@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
 public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   case authenticate (shop: String, clientId: String, clientSecret: String, code: String)
@@ -25,7 +25,7 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
     return "admin/\(_path)"
   }
   
-  public var method: Moya.Method {
+  public var method: HTTPMethod {
     switch self {
     case .authenticate: return .get
     case .orders, .products:
@@ -36,26 +36,25 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   
   public var task: Task {
     switch self {
-    case .authenticate: return .requestPlain
+    case .authenticate: return .plain
     case .products(let spec), .orders(let spec):
       if let page = spec.page {
-        return .requestParameters(parameters: [
-          "limit": 50,
-          "page": page
-        ], encoding: URLEncoding.default)
+        return .parametered(with: ["limit": 50, "page": page], encoding: .query)
       } else {
-        return .requestPlain
+        return .plain
       }
     }
   }
   
-  public var headers: [String: String]? {
+  public var headers: [String: String] {
     return [:]
   }
   
-  public var sampleData: Data { fatalError("sampleData has not been implemented") }
-
-// MARK: - Access Token authorizable
+  // MARK: - Access Token authorizable
+  
+  public var authorizationHeader: String {
+    return "X-Shopify-Access-Token"
+  }
   
   public var authorizationType: AuthorizationType {
     switch self {

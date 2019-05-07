@@ -3,9 +3,9 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
-extension Response {
+extension HTTPResponse {
   public func toModel<T: Decodable>(ofType type: T.Type) throws -> T {
     if statusCode < 300 {
       do {

@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
 extension ResourcesTarget {
   
@@ -29,7 +29,7 @@ extension ResourcesTarget {
       }
     }
     
-    public var method: Moya.Method {
+    public var method: HTTPMethod {
       return specMethod.method
     }
   }
