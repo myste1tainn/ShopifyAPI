@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
 extension ResourcesTarget {
   public enum APISpecificationMethod {
@@ -14,7 +14,7 @@ extension ResourcesTarget {
     case patch(id: String)
     case delete(id: String)
     
-    public var method: Moya.Method {
+    public var method: HTTPMethod {
       switch self {
       case .get, .getCount: return .get
       case .post: return .post

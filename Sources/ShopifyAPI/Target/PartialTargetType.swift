@@ -3,12 +3,12 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
 public protocol PartialTargetType {
   /// The path to be appended to `baseURL` to form the full `URL`.
   var path: String { get }
   
-  var method: Moya.Method { get }
+  var method: HTTPMethod { get }
 }
 

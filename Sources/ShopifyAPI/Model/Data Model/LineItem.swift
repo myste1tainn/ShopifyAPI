@@ -26,7 +26,7 @@ public struct LineItem: Decodable {
   public var grams: Int?
   public var totalDiscount: String?
   public var fulfillmentStatus: String?
-  public var discountAllocations: [String]?
+  public var discountAllocations: [DiscountAllocation]?
   public var adminGraphqlApiId: String?
   public var taxLines: [TaxLine]?
   

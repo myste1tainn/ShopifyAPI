@@ -47,9 +47,9 @@ public struct Order: Decodable {
   public var browserIp: String?
   public var landingSiteRef: String?
   public var orderNumber: Int?
-  public var discountApplications: [String]?
+  public var discountApplications: [DiscountApplication]?
   public var discountCodes: [String]?
-  public var noteAttributes: [String]?
+  public var noteAttributes: [NameValueTuple]?
   public var paymentGatewayNames: [String]?
   public var processingMethod: String?
   public var checkoutId: Int?

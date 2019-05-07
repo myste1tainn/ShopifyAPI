@@ -3,10 +3,10 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
 public enum ShopifyAPIError: Swift.Error, CustomStringConvertible, CustomDebugStringConvertible {
-  case responseDecoding(response: Moya.Response, baseError: Error?)
+  case responseDecoding(response: HTTPResponse, baseError: Error?)
   case unauthorized(error: ErrorResponse?)
   case forbidden(error: ErrorResponse?)
   case error(_ errorResponse: ErrorResponse?)

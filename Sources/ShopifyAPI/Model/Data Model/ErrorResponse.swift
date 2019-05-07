@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import Moya
+import RxNetworking
 
 public struct ErrorResponse: Swift.Error, Decodable, CustomStringConvertible, CustomDebugStringConvertible {
   var errors: String?

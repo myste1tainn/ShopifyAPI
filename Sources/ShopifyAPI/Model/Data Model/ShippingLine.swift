@@ -15,7 +15,7 @@ public struct ShippingLine: Decodable {
   public var deliveryCategory: String?
   public var carrierIdentifier: String?
   public var discountedPrice: String?
-  public var discountAllocations: [String?]?
+  public var discountAllocations: [DiscountAllocation]?
   public var taxLines: [TaxLine]?
   
   enum CodingKeys: String, CodingKey {

@@ -3,22 +3,21 @@
 //
 
 import Foundation
-import Moya
-import RxMoya
+import RxNetworking
 import RxSwift
 
 /// Represent APIs on Shopify
-public class APIs: MoyaProvider<ResourcesTarget> {
+public class APIs: HTTPClient<ResourcesTarget> {
   
   public func authenticate(shop: String,
                            clientId: String,
                            clientSecret: String,
                            code: String) -> Single<AccessToken> {
-    return rx.request(.authenticate(shop: shop,
-                                    clientId: clientId,
-                                    clientSecret: clientSecret,
-                                    code: code))
-             .map { try $0.toModel(ofType: AccessToken.self) }
+    return request(.authenticate(shop: shop,
+                                 clientId: clientId,
+                                 clientSecret: clientSecret,
+                                 code: code))
+      .map { try $0.toModel(ofType: AccessToken.self) }
   }
   
   public func orders(shop: String) -> Single<[Order]> {
@@ -28,15 +27,15 @@ public class APIs: MoyaProvider<ResourcesTarget> {
   }
   
   public func orders(shop: String, in page: Int) -> Single<[Order]> {
-    return rx.request(.orders(.get(from: shop, at: page)))
-             .map { try $0.toModel(ofType: ArrayResponse<Order>.self) }
-             .map { $0.items ?? [] }
+    return request(.orders(.get(from: shop, at: page)))
+      .map { try $0.toModel(ofType: ArrayResponse<Order>.self) }
+      .map { $0.items ?? [] }
   }
   
   public func orderCount(shop: String) -> Single<Int> {
-    return rx.request(.orders(.getCount(from: shop)))
-             .map { try $0.toModel(ofType: CountResponse.self) }
-             .map { $0.count ?? 0 }
+    return request(.orders(.getCount(from: shop)))
+      .map { try $0.toModel(ofType: CountResponse.self) }
+      .map { $0.count ?? 0 }
   }
   
   public func products(shop: String) -> Single<[Product]> {
@@ -46,23 +45,23 @@ public class APIs: MoyaProvider<ResourcesTarget> {
   }
   
   public func products(shop: String, in page: Int) -> Single<[Product]> {
-    return rx.request(.products(.get(from: shop, at: page)))
-             .map { try $0.toModel(ofType: ArrayResponse<Product>.self) }
-             .map { $0.items ?? [] }
+    return request(.products(.get(from: shop, at: page)))
+      .map { try $0.toModel(ofType: ArrayResponse<Product>.self) }
+      .map { $0.items ?? [] }
   }
   
   public func productCount(shop: String) -> Single<Int> {
-    return rx.request(.products(.getCount(from: shop)))
-             .map { try $0.toModel(ofType: CountResponse.self) }
-             .map { $0.count ?? 0 }
+    return request(.products(.getCount(from: shop)))
+      .map { try $0.toModel(ofType: CountResponse.self) }
+      .map { $0.count ?? 0 }
   }
   
   // MARK: - Helper functions
   
   private func pages(from count: Int) -> [Int] {
     let itemsPerPage = 50
-    let numPage = count / itemsPerPage
-    let pages = Array(1...numPage + 1)
+    let numPage      = count / itemsPerPage
+    let pages        = Array(1...numPage + 1)
     return pages
   }
   
