@@ -37,10 +37,11 @@ public enum ShopifyAPIError: Swift.Error, CustomStringConvertible, CustomDebugSt
     let base = "[\(self.code)] \(self.name)"
     switch self {
     case .responseDecoding(let response, let baseError):
+      let errorString = baseError != nil ? "\(baseError!)" : "-nil-"
       return "\(base)" +
              "\nFail to decode response body into Data Model" +
              "\ngot: \"\(String(data: response.data, encoding: .utf8) ?? "nil")\"" +
-             "\nUnderlying error: \(baseError)"
+             "\nUnderlying error: \(errorString)"
     case .unauthorized(let response), .forbidden(let response), .error(let response):
       return "\(base)" +
              "\n\(response?.errors ?? "")"

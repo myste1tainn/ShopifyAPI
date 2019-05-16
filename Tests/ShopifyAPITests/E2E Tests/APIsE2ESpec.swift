@@ -5,9 +5,7 @@ import Nimble
 @testable import RxNetworking
 @testable import ShopifyAPI
 
-class APIsSpec: QuickSpec {
-  
-  
+class APIsE2ESpec: QuickSpec {
   override func spec() {
     var apis: APIs!
     let shop       = "girlsnationofficial"

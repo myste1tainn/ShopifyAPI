@@ -13,7 +13,7 @@ import Foundation
 /// shorter and clearer to consumer
 public struct PartialAPISpec {
   public let shop: String
-  let specMethod: Method
+  let specMethod: APISpec.Method
   let page:       Int?
   
   public static func getCount(from shop: String) -> PartialAPISpec {
@@ -44,7 +44,7 @@ public struct PartialAPISpec {
     return .init(shop: shop, method: .delete(id: id))
   }
   
-  private init(shop: String, at page: Int? = nil, method: Method) {
+  private init(shop: String, at page: Int? = nil, method: APISpec.Method) {
     self.shop = shop
     self.page = page
     self.specMethod = method
