@@ -59,7 +59,7 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   
   public var authorizationType: AuthorizationType {
     switch self {
-    case .orders, .products: return .custom("")
+    case .orders, .products, .inventorySet: return .custom("")
     default: return .none
     }
   }

@@ -5,15 +5,21 @@
 import Foundation
 
 public struct InventorySetRequest: Encodable {
-  var locationID:     String?
-  var variantID:      String?
-  var inventoryLevel: String?
+  var locationID:      String?
+  var variantID:       String?
+  var inventoryLevels: String?
   
   public init(locationID: String?,
               variantID: String?,
-              inventoryLevel: String?) {
+              inventoryLevels: String?) {
     self.locationID = locationID
     self.variantID = variantID
-    self.inventoryLevel = inventoryLevel
+    self.inventoryLevels = inventoryLevels
+  }
+  
+  enum CodingKeys: String, CodingKey {
+    case locationID      = "location_id"
+    case variantID       = "variant_id"
+    case inventoryLevels = "inventory_levels"
   }
 }
