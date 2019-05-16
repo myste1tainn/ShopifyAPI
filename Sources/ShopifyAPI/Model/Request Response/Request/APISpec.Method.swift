@@ -5,8 +5,8 @@
 import Foundation
 import RxNetworking
 
-extension ResourcesTarget {
-  public enum APISpecificationMethod {
+extension APISpec {
+  public enum Method {
     case getCount
     case get
     case post

@@ -7,8 +7,9 @@ import RxNetworking
 
 public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   case authenticate (shop: String, clientId: String, clientSecret: String, code: String)
-  case orders(_ spec: APIPartialSpecification)
-  case products(_ spec: APIPartialSpecification)
+  case orders(_ spec: PartialAPISpec)
+  case products(_ spec: PartialAPISpec)
+  case inventorySet(_ request: InventorySetRequest)
   
   // MARK: - Target type
   
@@ -73,7 +74,7 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
     }
   }
   
-  private var wholeSpec: APISpecification? {
+  private var wholeSpec: APISpec? {
     switch self {
     case .orders(let spec):
       return .init(shop: spec.shop, resourceName: .orders, method: spec.specMethod)
