@@ -9,13 +9,13 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   case authenticate (shop: String, clientId: String, clientSecret: String, code: String)
   case orders(_ spec: PartialAPISpec)
   case products(_ spec: PartialAPISpec)
-  case inventorySet(_ request: InventorySetRequest)
+  case inventorySet(shop: String, request: InventorySetRequest)
   
   // MARK: - Target type
   
   public var baseURL: URL {
     switch self {
-    case .authenticate(let shop, _, _, _):
+    case .authenticate(let shop, _, _, _), .inventorySet(let shop, _):
       return URL(string: "https://\(figureOutShopDomain(shop: shop))")!
     case .orders(let spec), .products(let spec):
       return URL(string: "https://\(figureOutShopDomain(shop: spec.shop))")!
@@ -29,6 +29,7 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   public var method: HTTPMethod {
     switch self {
     case .authenticate: return .get
+    case .inventorySet: return .post
     case .orders, .products:
       guard let wholeSpec = self.wholeSpec else { return .get }
       return wholeSpec.method
@@ -37,21 +38,20 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   
   public var task: Task {
     switch self {
-    case .authenticate: return .plain
+    case .authenticate:
+      return .plain
+    case .inventorySet(let value):
+      return .parametered(with: value.request, encoding: .body(contentType: .json))
     case .products(let spec), .orders(let spec):
-      if let page = spec.page {
-        return .parametered(with: ["limit": 50, "page": page], encoding: .query)
-      } else {
-        return .plain
-      }
+      return spec.page != nil ? .parametered(with: ["limit": 50, "page": spec.page!], encoding: .query) : .plain
     }
   }
   
   public var headers: [String: String] {
     return [:]
   }
-  
-  // MARK: - Access Token authorizable
+
+// MARK: - Access Token authorizable
   
   public var authorizationHeader: String {
     return "X-Shopify-Access-Token"
@@ -88,9 +88,10 @@ public enum ResourcesTarget: TargetType, AccessTokenAuthorizable {
   private var _path: String {
     switch self {
     case .authenticate: return "oauth/access_token"
+    case .inventorySet: return "inventory_levels/set.json"
     case .orders, .products: return wholeSpec.flatMap { $0.path } ?? ""
     }
   }
 }
-  
+
 
