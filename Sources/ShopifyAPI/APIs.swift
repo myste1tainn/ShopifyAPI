@@ -56,6 +56,11 @@ public class APIs: HTTPClient<ResourcesTarget> {
       .map { $0.count ?? 0 }
   }
   
+  public func inventorySet(shop: String, request inventorySetRequest: InventorySetRequest) -> Single<Void> {
+    return request(.inventorySet(shop: shop, request: inventorySetRequest))
+      .map { _ in }
+  }
+  
   // MARK: - Helper functions
   
   private func pages(from count: Int) -> [Int] {
